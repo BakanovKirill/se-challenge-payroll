@@ -11,7 +11,7 @@ Points of interest here:
 - The front-end runs in single-page manner, page is not refreshed on CSV upload, results are updated using AJAX response.
 - Used the Django Debug Toolbar to optimize the database queries.
 - Added tests, used Coverage tool for display.
-- The app works without signing in, but you can browse the Django admin interface to see the uploaded reports and Daily Data byt the url `http://127.0.0.1:8000/admin/`.
+- The app works without signing in, but you can browse the Django admin interface to see the uploaded reports and Daily Data at http://127.0.0.1:8000/admin/payroll/dailydata/?o=1.2.
 
 Admin credentials:
 ```
