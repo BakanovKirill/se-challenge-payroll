@@ -5,11 +5,20 @@ The application uses *python/Django* as back-end and simple *jQuery and Bootstra
 Points of interest here:
 - I used Django Rest Framework to showcase the usage for AJAX calls(`views.py`) and models serialization (`serializers.py`).
 - all calculations moved to `utils.py` module to improve code readability and structure.
+- Job groups are loaded from fixtures during setup.
 - I decided to create the reports data as PayPeriod model in the database right after the CSV file is uploaded. This way application stores analytical data in the DB without having to calculate it each time the page loads.
 - When report data is calculated, it groups the daily datas from CSV by employee and date periods, this lowers the number of DB hits.
 - The front-end runs in single-page manner, page is not refreshed on CSV upload, results are updated using AJAX response.
 - Used the Django Debug Toolbar to optimize the database queries.
 - Added tests, used Coverage tool for display.
+- The app works without signing in, but you can browse the Django admin interface to see the uploaded reports and Daily Data byt the url `http://127.0.0.1:8000/admin/`.
+
+Admin credentials:
+```
+Login: admin
+Password: admin
+```
+
 ## Install
 
 Use provided setup script to install virtualenv, requirements and sqlite3 database
@@ -30,6 +39,7 @@ or
 source ../env/bin/activate
 python manage.py runserver
 ```
+Then go to `http://localhost:8000/` or `http://127.0.0.1:8000` as the runserver command suggests
 
 2. To run tests:
 ```
