@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load i18n static %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
@@ -7,7 +7,7 @@
 
 {% block body %}
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Wave reports</a>
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">{% trans 'Wave reports' %}</a>
     </nav>
 
     <div class="container-fluid">
@@ -18,7 +18,7 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="#">
                                 <span data-feather="home"></span>
-                                Payroll <span class="sr-only">(current)</span>
+                                {% trans 'Payroll' %} <span class="sr-only">{% trans '(current)' %}</span>
                             </a>
                         </li>
                     </ul>
@@ -27,10 +27,10 @@
 
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
-                    <h1 class="h2">Payroll</h1>
+                    <h1 class="h2">{% trans 'Payroll' %}</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="alert alert-danger msgBox" id="fileError"></div>
-                        <div class="alert alert-success msgBox" id="success"><span data-feather="thumbs-up"></span> Report uploaded!</div>
+                        <div class="alert alert-success msgBox" id="success"><span data-feather="thumbs-up"></span> {% trans 'Report uploaded!' %}</div>
 
                         <div class="upload-container btn-group mr-2">
                             <form id="reportUploadForm" action="{% url 'upload_report' %}" method="post" enctype="multipart/form-data">
@@ -38,8 +38,7 @@
                                 <input type="file" name="file" id="reportFile" style="opacity: 0;" accept=".csv">
                                 <label for="reportFile">
                                     <button class="btn btn-sm btn-outline-secondary"><span data-feather="upload"></span>
-                                        Upload
-                                        payroll CSV
+                                        {% trans 'Upload payroll CSV' %}
                                     </button>
                                 </label>
                             </form>
@@ -51,9 +50,9 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Employee ID</th>
-                            <th>Pay Period</th>
-                            <th>Amount Paid</th>
+                            <th>{% trans 'Employee ID' %}</th>
+                            <th>{% trans 'Pay Period' %}</th>
+                            <th>{% trans 'Amount Paid' %}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -61,7 +60,7 @@
                             {% include 'period_rows.html' %}
                         {% else %}
                             <tr>
-                                <td colspan="4">There is no tracked data yet.</td>
+                                <td colspan="4">{% trans 'There is no tracked data yet.' %}</td>
                             </tr>
                         {% endif %}
                         </tbody>

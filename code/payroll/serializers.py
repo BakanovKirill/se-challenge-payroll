@@ -1,14 +1,13 @@
 import csv
-from decimal import Decimal
 from io import TextIOWrapper
 
-from django.contrib.auth.models import User
 from django.db import transaction
+
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
-from rest_framework.relations import PrimaryKeyRelatedField
 
-from payroll.models import Report, DailyData, Employee, JobGroup, PayPeriod
+from payroll import validation_messages
+from payroll.models import Report, DailyData, Employee, JobGroup
 
 
 class ReportSerializer(serializers.ModelSerializer):
@@ -18,7 +17,7 @@ class ReportSerializer(serializers.ModelSerializer):
 
     def validate_csv_file(self, value):
         if value.content_type != 'text/csv':
-            raise ValidationError({'file': _('The file must be in CSV format.')})
+            raise ValidationError(validation_messages.FILE_HAS_WRONG_FORMAT)
         return value
 
     def create(self, validated_data):
@@ -29,7 +28,7 @@ class ReportSerializer(serializers.ModelSerializer):
         (1) also can be done in validate() method but this means we have to read the file twice.
 
         :param validated_data:
-        :return:
+        :return: Report
         """
         with validated_data['csv_file'].open() as csv_file:
             csv_file = TextIOWrapper(csv_file.file, encoding='utf-8')
@@ -39,7 +38,7 @@ class ReportSerializer(serializers.ModelSerializer):
             report_id = footer.split('report id,')[1].split(',')[0]
             # Validate existing report id.
             if Report.objects.filter(id=report_id).exists():
-                raise ValidationError({'csv_file': 'This report already exists. Upload another file.'})
+                raise ValidationError({'csv_file': [validation_messages.REPORT_ALREADY_EXISTS]})
 
             validated_data['id'] = report_id
             # Preload job groups into dict so we have group_type:id pairs
@@ -71,10 +70,6 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee
         fields = ('id', 'job_group')
 
-    def create(self, validated_data):
-        instance = super().create(validated_data)
-        return instance
-
 
 class DailyDataSerializer(serializers.ModelSerializer):
     employee = EmployeeSerializer()
@@ -84,6 +79,11 @@ class DailyDataSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
+        """
+        Creates or updates Employee before creating the actual DailyData
+
+        :return DailyData
+        """
         employee = validated_data.pop('employee')
         # Create employee or update the job group.
         employee, created = Employee.objects.update_or_create(
@@ -94,8 +94,3 @@ class DailyDataSerializer(serializers.ModelSerializer):
         instance = super().create(validated_data)
         return instance
 
-
-class PayPeriodSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PayPeriod
-        fields = '__all__'

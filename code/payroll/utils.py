@@ -1,8 +1,5 @@
 import calendar
 import collections
-from typing import NamedTuple
-
-from django.db import transaction
 
 from payroll.models import PayPeriod
 

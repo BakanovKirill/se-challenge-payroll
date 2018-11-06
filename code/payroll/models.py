@@ -1,15 +1,10 @@
 import os
-from decimal import Decimal
 
 from django.contrib.auth.models import User
 from django.db import models
 
 
 class JobGroup(models.Model):
-    WAGES_BY_TYPE = {
-        'A': Decimal(20),
-        'B': Decimal(30)
-    }
     group_type = models.CharField(max_length=1)
     per_hour_amount = models.DecimalField(decimal_places=2, max_digits=12, null=True, blank=True)
 
@@ -22,6 +17,9 @@ class Employee(models.Model):
 
 
 class Report(models.Model):
+    """
+    Stores uploaded CSV file and connects DailyData instances
+    """
     csv_file = models.FileField(upload_to='reports')
     date_created = models.DateTimeField(auto_now_add=True)
 
@@ -33,6 +31,11 @@ class DailyData(models.Model):
     """
     Stores the row of uploaded CSV reports which come as this:
     | date	  hours worked	  employee id	  job group |
+
+    `CSV_TO_DB_FIELDS` is used during parsing to rename fields.
+
+    `job_group` is essential here as `Employee.job_gruop` can be changed and we can't rely
+     on that relation when calculating amounts to pay.
     """
 
     CSV_TO_DB_FIELDS = {
@@ -50,6 +53,10 @@ class DailyData(models.Model):
 
 
 class PayPeriod(models.Model):
+    """
+    Stores amount paid to Employee per period of time between `start` and `end`.
+    PayPeriod is unique for each employee-start-end combination.
+    """
     start = models.DateField()
     end = models.DateField()
     amount_paid = models.DecimalField(decimal_places=2, max_digits=12, default=0, blank=True)

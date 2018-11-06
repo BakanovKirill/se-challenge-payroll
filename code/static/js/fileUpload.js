@@ -26,7 +26,7 @@ $(() => {
             let json = response.responseJSON,
                 error = 'Something went wrong. Please check your data and try again.';
             if (json) {
-                error = json.csv_file;
+                error = json.csv_file[0];
             }
             fileError.text(error);
             fileError.show();
