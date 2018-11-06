@@ -1,0 +1,18 @@
+[
+{
+    "model": "payroll.jobgroup",
+    "pk": 2,
+    "fields": {
+        "group_type": "B",
+        "per_hour_amount": "30.00"
+    }
+},
+{
+    "model": "payroll.jobgroup",
+    "pk": 1,
+    "fields": {
+        "group_type": "A",
+        "per_hour_amount": "20.00"
+    }
+}
+]

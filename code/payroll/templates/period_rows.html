@@ -1,0 +1,8 @@
+{% for p in pay_periods %}
+    <tr id="p_{{ p.id }}">
+        <td>{{ forloop.counter }}</td>
+        <td><span class="bold">{{ p.employee }}</span></td>
+        <td>{{ p.start }} - {{ p.end }}</td>
+        <td class="amount">{{ p.amount_paid }}</td>
+    </tr>
+{% endfor %}

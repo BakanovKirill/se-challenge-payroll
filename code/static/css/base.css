@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    cursor: pointer;
+
+}
+
+button:focus {
+    outline: 0;
+}
+
+.align-vertical {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    justify-items: center;
+}
+
+.align-center-vertical {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.align-vertical > .align-item {
+    -webkit-box-flex: 0;
+    -webkit-flex: none;
+    -ms-flex: none;
+    flex: none;
+    max-width: 100%;
+}
+
+.red-link {
+    color: #E04C4C;
+    text-decoration: underline;
+    font-size: 24px;
+}
+
+.red-link:hover {
+    color: #E04C4C;
+    text-decoration: none;
+}
+
+.bold {
+    font-weight: bold;
+}
