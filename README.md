@@ -1,3 +1,42 @@
+# Instructions
+
+The application uses *python/Django* as back-end and simple *jQuery and Bootstrap* template engine on the front-end.
+
+Points of interest here:
+- I used Django Rest Framework to showcase the usage for AJAX calls(`views.py`) and models serialization (`serializers.py`).
+- all calculations moved to `utils.py` module to improve code readability and structure.
+- I decided to create the reports data as PayPeriod model in the database right after the CSV file is uploaded. This way application stores analytical data in the DB without having to calculate it each time the page loads.
+- When report data is calculated, it groups the daily datas from CSV by employee and date periods, this lowers the number of DB hits.
+- The front-end runs in single-page manner, page is not refreshed on CSV upload, results are updated using AJAX response.
+- Used the Django Debug Toolbar to optimize the database queries.
+- Added tests, used Coverage tool for display.
+## Install
+
+Use provided setup script to install virtualenv, requirements and sqlite3 database
+
+```
+cd se-challenge-payroll/
+./setup.sh
+cd code/
+```
+## Run
+
+1. To run the application make sure you are in the `code/` directory and use following:
+```
+../env/bin/python manage.py runserver
+```
+or
+```
+source ../env/bin/activate
+python manage.py runserver
+```
+
+2. To run tests:
+```
+../run_tests_with_coverage.sh
+```
+Then just open `coverage_html_report/index.html` with your browser if you want to see the Coverage report
+
 # Wave Software Development Challenge
 
 Applicants for the [Software
